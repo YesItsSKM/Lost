@@ -1,25 +1,46 @@
+using StarterAssets;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerActions : MonoBehaviour
 {
-    Animator animator;
+    Animator playerAnimator;
+    ThirdPersonController thirdPersonController;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponentInChildren<Animator>();
+        playerAnimator = GetComponentInChildren<Animator>();
+        //playerRb = GetComponentInChildren<Rigidbody>();
 
-        print(animator.name);
+        thirdPersonController = GetComponentInChildren<ThirdPersonController>();
+
+        print(playerAnimator.name);
+        print(thirdPersonController.name);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && thirdPersonController.Grounded)
         {
-            animator.SetTrigger("Punch");
+            playerAnimator.SetTrigger("Punch");
+            StopMovement();
+
+            StartCoroutine(SET_SPEED());
         }
+    }
+
+    private void StopMovement()
+    {
+        thirdPersonController.MoveSpeed = 0f;
+        thirdPersonController.SprintSpeed = 0f;
+    }
+
+    IEnumerator SET_SPEED()
+    {
+        yield return new WaitForSeconds(0.7f);
+        thirdPersonController.MoveSpeed = 2f;
+        thirdPersonController.SprintSpeed = 5.335f;
     }
 }
