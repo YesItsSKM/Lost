@@ -13,7 +13,7 @@ public class ChangePost : MonoBehaviour
 
         if(postProcess.profile.TryGetSettings<ColorGrading>(out colorGrading))
         {
-            colorGrading.saturation.value = -100;
+            colorGrading.saturation.value = 10;
         }
     }
 
