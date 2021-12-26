@@ -44,6 +44,7 @@ public class PlayerActions : MonoBehaviour
         {
             //print(spawnedBeam.transform.name);
             spawnedBeam.transform.localRotation = beamLocation.transform.rotation;
+            spawnedBeam.transform.position = beamLocation.transform.position;
 
             lerpChroma = Mathf.Lerp(0.2f, 3f, 0.15f);
 
