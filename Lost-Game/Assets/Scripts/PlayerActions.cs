@@ -39,7 +39,7 @@ public class PlayerActions : MonoBehaviour
 
     IEnumerator SET_SPEED()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(2.2f);
         thirdPersonController.MoveSpeed = 2f;
         thirdPersonController.SprintSpeed = 5.335f;
     }
