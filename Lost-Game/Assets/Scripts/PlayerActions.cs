@@ -12,6 +12,10 @@ public class PlayerActions : MonoBehaviour
     public GameObject beam;
     public Transform beamLocation;
 
+    public ChangePost post;
+
+    float lerpChroma;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +44,10 @@ public class PlayerActions : MonoBehaviour
         {
             //print(spawnedBeam.transform.name);
             spawnedBeam.transform.localRotation = beamLocation.transform.rotation;
+
+            lerpChroma = Mathf.Lerp(0.2f, 3f, 0.15f);
+
+            post.chromaticAberration.intensity.value = lerpChroma;
         }
     }
 
@@ -48,6 +56,8 @@ public class PlayerActions : MonoBehaviour
         playerAnimator.SetTrigger("Punch");
 
         //Instantiate(beam, transform.position + transform.forward + new Vector3(0f, 0.5f, 0f), Quaternion.identity);
+
+        //post.chromaticAberration.intensity.value = 1f;
 
         StartCoroutine(SPAWN_BEAM());
     }
@@ -72,5 +82,14 @@ public class PlayerActions : MonoBehaviour
         spawnedBeam = Instantiate(beam, beamLocation.transform.position, beamLocation.transform.rotation);
 
         Destroy(spawnedBeam, 1.5f);
+
+        StartCoroutine(CHROMATIC_SHIFT());
+    }
+
+    IEnumerator CHROMATIC_SHIFT()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        post.chromaticAberration.intensity.value = 0.2f;
     }
 }
