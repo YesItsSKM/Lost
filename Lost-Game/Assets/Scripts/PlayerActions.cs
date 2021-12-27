@@ -1,5 +1,4 @@
 using StarterAssets;
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,9 +9,12 @@ public class PlayerActions : MonoBehaviour
     GameObject spawnedBeam;
 
     public GameObject beam;
-    public Transform beamLocation;
+    public Transform beamTransform;
 
     public ChangePost post;
+
+    public AudioClip beamSound;
+    AudioSource beamAudioSource;
 
     float lerpChroma;
 
@@ -26,6 +28,8 @@ public class PlayerActions : MonoBehaviour
 
         print(playerAnimator.name);
         print(thirdPersonController.name);
+
+        beamAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -43,10 +47,10 @@ public class PlayerActions : MonoBehaviour
         if (spawnedBeam)
         {
             //print(spawnedBeam.transform.name);
-            spawnedBeam.transform.localRotation = beamLocation.transform.rotation;
-            spawnedBeam.transform.position = beamLocation.transform.position;
+            spawnedBeam.transform.localRotation = beamTransform.transform.rotation;
+            spawnedBeam.transform.position = beamTransform.transform.position;
 
-            lerpChroma = Mathf.Lerp(0.2f, 3f, 0.15f);
+            lerpChroma = Mathf.Lerp(0.2f, 4f, 0.2f);
 
             post.chromaticAberration.intensity.value = lerpChroma;
         }
@@ -55,6 +59,9 @@ public class PlayerActions : MonoBehaviour
     private void Attack()
     {
         playerAnimator.SetTrigger("Punch");
+
+        beamAudioSource.clip = beamSound;
+        beamAudioSource.Play();
 
         //Instantiate(beam, transform.position + transform.forward + new Vector3(0f, 0.5f, 0f), Quaternion.identity);
 
@@ -80,7 +87,7 @@ public class PlayerActions : MonoBehaviour
     {
         yield return new WaitForSeconds(0.7f);
 
-        spawnedBeam = Instantiate(beam, beamLocation.transform.position, beamLocation.transform.rotation);
+        spawnedBeam = Instantiate(beam, beamTransform.transform.position, beamTransform.transform.rotation);
 
         Destroy(spawnedBeam, 1.5f);
 
